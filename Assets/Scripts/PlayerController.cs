@@ -5,26 +5,37 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("General Setup Settings")]
+    [Tooltip("How fast ship moves up and down based upon player input")]
     [SerializeField] float controlSpeed = 10f;
+    [Tooltip("How far player can move horizontally")]
     [SerializeField] float xRange = 5f;
+    [Tooltip("How far player can move vertically")]
     [SerializeField] float yRange = 3.5f;
+
+    [Header("Laser gun array")]
+    [Tooltip("Add all player lasers here")]
     [SerializeField] GameObject[] lasers;
 
+
+    [Header("Screen position based tuning")]
     [SerializeField] float positionPitchFactor = -2f;
-    [SerializeField] float controlPitchFactor = -10f;
     [SerializeField] float positionYawFactor = 2f;
+
+    [Header("Player input based tuning")]
+    [SerializeField] float controlPitchFactor = -10f;
     [SerializeField] float controlRollFactor = -20f;
 
     float xThrow, yThrow;
 
     void Update()
     {
-        ProccessTranslation();
-        ProccessRotaion();
-        ProccessFiring();
+        ProcessTranslation();
+        ProcessRotaion();
+        ProcessFiring();
     }
 
-    private void ProccessTranslation()
+    private void ProcessTranslation()
     {
         xThrow = Input.GetAxis("Horizontal");
         yThrow = Input.GetAxis("Vertical");
@@ -44,7 +55,7 @@ public class PlayerController : MonoBehaviour
             );
     }
 
-    void ProccessRotaion()
+    void ProcessRotaion()
     {
         float pitchDueToPosition = transform.localPosition.y * positionPitchFactor;
         float pitchDueToControlThrow = yThrow * controlPitchFactor;
@@ -56,7 +67,7 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
     }
 
-    void ProccessFiring()
+    void ProcessFiring()
     {
         if (Input.GetButton("Fire1"))
         {
@@ -76,4 +87,5 @@ public class PlayerController : MonoBehaviour
             part.enabled = isActive;
         }   
     }
+
 }
